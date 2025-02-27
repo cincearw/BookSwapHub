@@ -1,10 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="index.html">Home</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Products</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li>
+			<li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="provider.html">Provider Dashboard</a>
+			<li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="listings.html">Manage Books</a>
+			<li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="requests.html">Swap Requests</a>
+			<li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="stats.html">Profile</a>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Welcome, Provider!</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Books Listed</h5>
+                    <p class="card-text">You have <strong>5</strong> books available for swap.</p>
+                    <a href="provider-books.html" class="btn btn-primary">Manage Books</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Requests</h5>
+                    <p class="card-text">You have <strong>2</strong> pending swap requests.</p>
+                    <a href="provider-requests.html" class="btn btn-warning">View Requests</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Settings</h5>
+                    <p class="card-text">Update your contact and availability details.</p>
+                    <a href="provider-profile.html" class="btn btn-secondary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer text-faded text-center py-5">
+            <div class="container"><p class="m-0 small">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
 
 </body>
 </html>
