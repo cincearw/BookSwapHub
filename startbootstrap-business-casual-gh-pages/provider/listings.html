@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Listings - BookSwap Hub</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+<header class="bg-dark text-light py-5 text-center">
+    <h1 class="fw-bold text-uppercase">BookSwap Hub</h1>
+    <h2 class="text-warning">Manage Your Listings</h2>
+</header>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark py-lg-4 bg-dark" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">BookSwap Hub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="home.html">Home</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="provider.html">Manage Books</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="requests.html">Swap Requests</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="listings.html">Listings</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="stats.html">Profile</a></li>
+                <li class="nav-item px-lg-4">
+                    <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Manage Listings Section -->
+<section class="page-section">
+    <div class="container">
+        <div class="bg-light p-5 rounded shadow">
+            <h2 class="text-center text-dark">Your Listed Books</h2>
+            <p class="text-center text-muted">View and manage the books you have listed for swapping. Add new books, update details, or remove listings as needed.</p>
+            <div class="text-center mb-4">
+                <button class="btn btn-warning">Add New Book</button>
+            </div>
+            <div class="row">
+                <!-- Example Book Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <img src="assets/img/book1.jpg" class="card-img-top" alt="Book 1">
+                        <div class="card-body">
+                            <h5 class="card-title">The Great Gatsby</h5>
+                            <p class="card-text">by F. Scott Fitzgerald</p>
+                            <button class="btn btn-danger w-100">Remove Listing</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <img src="assets/img/book2.jpg" class="card-img-top" alt="Book 2">
+                        <div class="card-body">
+                            <h5 class="card-title">To Kill a Mockingbird</h5>
+                            <p class="card-text">by Harper Lee</p>
+                            <button class="btn btn-danger w-100">Remove Listing</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <img src="assets/img/book3.jpg" class="card-img-top" alt="Book 3">
+                        <div class="card-body">
+                            <h5 class="card-title">1984</h5>
+                            <p class="card-text">by George Orwell</p>
+                            <button class="btn btn-danger w-100">Remove Listing</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer text-center py-4 bg-dark text-light">
+    <div class="container">
+        <p class="m-0 small">Copyright &copy; BookSwap Hub 2025</p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS -->
+<script src="js/scripts.js"></script>
+<!-- Logout Script -->
+<script>
+    function logout() {
+        // Debugging: Check if the function is being triggered
+        console.log("Logout button clicked");
+
+        let confirmLogout = confirm("Are you sure you want to log out?");
+
+        if (confirmLogout) {
+            console.log("User confirmed logout"); // Debugging message
+            window.location.href = "../index.html"; // Redirects to homepage
+        } else {
+            console.log("User canceled logout"); // Debugging message
+        }
+    }
+</script>
+</body>
+</html>
