@@ -70,17 +70,21 @@
 <section class="page-section">
   <div class="container">
     <div class="row">
-      <!-- Example Book Card 1 -->
+      <#list books as book>
       <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="../assets/img/book1.jpg" class="card-img-top" alt="Book 1">
-          <div class="card-body">
-            <h5 class="card-title">The Great Gatsby</h5>
-            <p class="card-text">by F. Scott Fitzgerald</p>
-            <a href = "swaps.html" class="btn btn-success w-100">Request Swap</a>
+        <div class="card h-100 shadow-sm">
+          <img src="/assets/img/book-placeholder.jpg" class="card-img-top" alt="${book.title}">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">${book.title}</h5>
+            <p class="card-text">by ${book.author}</p>
+            <p class="text-muted mb-3">Genre: ${book.genre}</p>
+            <p class="small">${book.description}</p>
+            <a href="/reviews" class="btn btn-success mt-auto">Leave a Review</a>
           </div>
         </div>
       </div>
+    </#list>
+  </div>
 
       <!-- Example Book Card 2 -->
       <div class="col-md-4 mb-4">

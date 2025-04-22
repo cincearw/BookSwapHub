@@ -32,6 +32,10 @@ public class Book{
     @JoinColumn(name = "ownerId") //FK to Users table
     private User owner;
 
+
+    @Column(length = 350)
+    private String imageUrl;
+
     //Constructors
     public Book(){}
 
@@ -90,5 +94,13 @@ public class Book{
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

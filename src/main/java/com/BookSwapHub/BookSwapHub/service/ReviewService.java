@@ -25,11 +25,14 @@ public class ReviewService {
     private BookRepository bookRepository;
 
     public Review submitReview(Review review){
+        //Find the actual User from the database using the userId from the submitted review
         User reviewer = userRepository.findById(review.getReviewer().getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        //find the actual book from the database using the bookId from the submitted review
         Book book = bookRepository.findById(review.getBook().getBookId())
                 .orElseThrow(() -> new RuntimeException("Book not found"));
 
+        //attach to the managed user entity and book entity to the review
         review.setReviewer(reviewer);
         review.setBook(book);
         review.setCreatedAt(LocalDate.now());
@@ -37,13 +40,18 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    //return a list of all reviews in the dataabase made by that userId
     public List<Review> getReviewsByUser(Long userId){
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return reviewRepository.findByReviewer(user);
     }
-
+//delete the review
     public void deleteReview(Long reviewId){
         reviewRepository.deleteById(reviewId);
+    }
+
+    public List<Review> getAllReviews() {
+        return reviewRepository.findAll();
     }
 
 
