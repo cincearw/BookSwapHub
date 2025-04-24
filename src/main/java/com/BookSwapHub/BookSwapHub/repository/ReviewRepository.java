@@ -12,4 +12,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // Add this method to find reviews by book
     List<Review> findByBook(Book book);
 
+
 }

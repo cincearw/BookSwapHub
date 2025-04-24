@@ -12,6 +12,7 @@ public class Provider extends User{
 
     private String bio; // A short biography or description about the provider
 
+
     @OneToMany(mappedBy = "provider")
     @JsonManagedReference
     private List<Book> books; // Books provided by this provider

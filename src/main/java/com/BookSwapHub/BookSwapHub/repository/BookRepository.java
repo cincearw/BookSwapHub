@@ -5,6 +5,8 @@ import com.BookSwapHub.BookSwapHub.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +25,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     //Find the book by title
     Optional<Book> findByTitle(String title);
 
+    @Query("SELECT COUNT(b) FROM Book b WHERE b.provider.userId = :providerId")
+    long countByProviderId(@Param("providerId") Long providerId);
 }
