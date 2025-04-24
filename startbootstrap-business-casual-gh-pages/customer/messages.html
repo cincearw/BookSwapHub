@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - BookSwap Hub</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark py-lg-4 bg-dark">
+  <div class="container">
+    <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="customer.html">BookSwap Hub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer.html">Home</a></li>
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="books.html">Books</a></li>
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="swaps.html">Swaps</a></li>
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="messages.html">Messages</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Messages Section -->
+<div class="container mt-5">
+  <h2 class="text-center text-warning">Your Messages</h2>
+  <p class="text-center text-light">View and manage your swap-related messages.</p>
+
+  <div class="text-end mb-3">
+    <button class="btn btn-warning" onclick="showNewMessageForm()">New Message</button>
+  </div>
+
+  <!-- Tabs for Inbox & Sent Messages -->
+  <ul class="nav nav-tabs mb-3" id="messageTabs">
+    <li class="nav-item">
+      <a class="nav-link active" id="inbox-tab" data-bs-toggle="tab" href="#inbox">Inbox</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="sent-tab" data-bs-toggle="tab" href="#sent">Sent</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Inbox Messages -->
+    <div class="tab-pane fade show active" id="inbox">
+      <div class="bg-light p-4 rounded shadow">
+        <h5 class="text-dark">Inbox</h5>
+        <div class="list-group">
+          <!-- Message 1 -->
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>John Doe:</strong> "Hey! I’m interested in swapping 'The Great Gatsby'..."
+              <small class="text-muted d-block">Feb 28, 2025 - 10:15 AM</small>
+            </div>
+            <button class="btn btn-danger btn-sm">Delete</button>
+          </div>
+
+          <!-- Message 2 -->
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Jane Smith:</strong> "Is 'To Kill a Mockingbird' still available for swap?"
+              <small class="text-muted d-block">Feb 27, 2025 - 3:45 PM</small>
+            </div>
+            <button class="btn btn-danger btn-sm">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sent Messages -->
+    <div class="tab-pane fade" id="sent">
+      <div class="bg-light p-4 rounded shadow">
+        <h5 class="text-dark">Sent Messages</h5>
+        <div class="list-group">
+          <!-- Sent Message 1 -->
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>You → David Brown:</strong> "I received '1984' today, thanks for the swap!"
+              <small class="text-muted d-block">Feb 25, 2025 - 7:30 PM</small>
+            </div>
+            <button class="btn btn-danger btn-sm">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Message Form (Hidden by Default) -->
+<div class="container mt-4" id="newMessageForm" style="display: none;">
+  <div class="bg-light p-4 rounded shadow">
+    <h5 class="text-dark">New Message</h5>
+    <form id="messageForm">
+      <div class="mb-3">
+        <label for="recipient" class="form-label">Recipient</label>
+        <input type="text" id="recipient" class="form-control" placeholder="Enter recipient's name" required>
+      </div>
+      <div class="mb-3">
+        <label for="messageText" class="form-label">Message</label>
+        <textarea id="messageText" class="form-control" rows="4" placeholder="Type your message here..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Send Message</button>
+      <button type="button" class="btn btn-secondary" onclick="hideNewMessageForm()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer text-center py-4 bg-dark text-light">
+  <div class="container">
+    <p class="m-0 small">Copyright &copy; BookSwap Hub 2025</p>
+  </div>
+</footer>
+
+<!-- Bootstrap core JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Show new message form
+  function showNewMessageForm() {
+      document.getElementById("newMessageForm").style.display = "block";
+  }
+
+  // Hide new message form
+  function hideNewMessageForm() {
+      document.getElementById("newMessageForm").style.display = "none";
+  }
+
+  // Handle sending message
+  document.getElementById("messageForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      let recipient = document.getElementById("recipient").value;
+      let messageText = document.getElementById("messageText").value;
+
+      if (recipient && messageText) {
+          alert("Message sent to " + recipient + "!");
+          hideNewMessageForm();
+          document.getElementById("messageForm").reset(); // Reset form
+      } else {
+          alert("Please fill in all fields.");
+      }
+  });
+</script>
+
+</body>
+</html>
