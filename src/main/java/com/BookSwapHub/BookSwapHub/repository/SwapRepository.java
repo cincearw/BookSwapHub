@@ -4,6 +4,9 @@ import com.BookSwapHub.BookSwapHub.model.Book;
 import com.BookSwapHub.BookSwapHub.model.Swap;
 import com.BookSwapHub.BookSwapHub.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
 public interface SwapRepository extends JpaRepository<Swap, Long> {
@@ -16,4 +19,6 @@ public interface SwapRepository extends JpaRepository<Swap, Long> {
     List<Swap> findByBookProvider(User provider);
 
 
+    @Query("SELECT COUNT(s) FROM Swap s WHERE s.book.provider.userId = :providerId")
+    long countByProviderId(@Param("providerId") Long providerId);
 }
