@@ -11,9 +11,10 @@ public class CustomerService{
     @Autowired
     private UserRepository userRepository;
 
-    public User registerUser(User user){
-        return userRepository.save(user);
+    public User registerUser(User user) {
+        return userRepository.save(user); // works with Provider or User
     }
+
 
     public Optional<User> getUserByUsername(String username){
         return userRepository.findByUsername(username);

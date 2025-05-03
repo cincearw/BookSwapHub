@@ -80,4 +80,28 @@ public class SwapService {
 
         return swaps;
     }
+
+
+    public int countByProvider_IdAndStatus(Long providerId, String status) {
+        return swapRepository.countByProvider_IdAndStatus(providerId, status);
+    }
+
+    public int countByRequester_IdAndStatus(Long requesterId, String status) {
+        return swapRepository.countByRequester_UserIdAndStatus(requesterId, status);
+    }
+
+    public int countPendingSwapsByUserId(Long userId) {
+        return swapRepository.countByRequester_UserIdAndStatus(userId, "pending");
+    }
+
+    public int countAcceptedSwapsByUserId(Long userId) {
+        return swapRepository.countByRequester_UserIdAndStatus(userId, "accepted");
+    }
+
+    public int countNewRequestsForProvider(Long providerId) {
+        return swapRepository.countByProvider_IdAndStatus(providerId, "pending");
+    }
+
+
+
 }

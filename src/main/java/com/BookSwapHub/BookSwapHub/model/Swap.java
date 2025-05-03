@@ -18,6 +18,11 @@ public class Swap{
     @JoinColumn(name = "requester_id")
     private User requester;
 
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
+
+
     @Column(length = 20)
     private String status; //"pending", "accepted"
 
@@ -56,6 +61,10 @@ public class Swap{
         return requester;
     }
 
+    public Provider getProvider() {
+        return provider;
+    }
+
     public void setBook(Book book) {
         this.book = book;
     }
@@ -78,5 +87,9 @@ public class Swap{
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 }

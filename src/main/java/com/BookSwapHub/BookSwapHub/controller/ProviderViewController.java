@@ -14,6 +14,7 @@ import com.BookSwapHub.BookSwapHub.service.BookService;
 import com.BookSwapHub.BookSwapHub.service.ProviderService;
 import com.BookSwapHub.BookSwapHub.service.ReviewService;
 import com.BookSwapHub.BookSwapHub.service.SwapService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,7 +49,7 @@ public class ProviderViewController {
     @Autowired
     private SwapService swapService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/provider/{id}")
     public String viewProvider(@PathVariable Long id, Model model) {
         Optional<Provider> optionalProvider = providerRepository.findById(id);
         if (optionalProvider.isPresent()) {
@@ -86,10 +87,26 @@ public class ProviderViewController {
     }
 
 
-    @GetMapping("/user-dashboard")
-    public String userDashboard(Model model) {
-        return "user-dashboard";
+
+    @GetMapping("/provider/home")
+    public String providerDashboard(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/auth/login"; // fallback if not logged in
+        }
+
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        int newRequests = swapService.countNewRequestsForProvider(userId);
+
+        model.addAttribute("provider", provider);
+        model.addAttribute("newRequests", newRequests);
+
+        return "provider-dashboard";
     }
+
+
+
 
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
@@ -99,7 +116,7 @@ public class ProviderViewController {
                                Model model) {
         if (userRepository.findByEmail(email).isPresent()) {
             model.addAttribute("error", "Email already registered.");
-            return "user-dashboard";
+            return "login.ftlh";
         }
 
         User user = new User();
@@ -111,36 +128,25 @@ public class ProviderViewController {
         userRepository.save(user);
 
         model.addAttribute("message", "Account created! Please log in.");
-        return "user-dashboard";
+        return "login.ftlh";
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam String email,
-                            @RequestParam String password,
-                            Model model) {
 
-        Optional<User> userOpt = userRepository.findByEmail(email);
-
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-
-            if (user.getPassword().equals(password)) {
-                // Check if this user is a provider
-                Optional<User> userExist = userRepository.findByEmail(email);
-                if (userExist.isPresent()) {
-                    return "redirect:/" + user.getUserId(); // Redirect to /{id}
-                } else {
-                    // Not a provider, handle appropriately
-                    model.addAttribute("error", "Login successful, but you're not a provider.");
-                    return "user-dashboard";
-                }
-            } else {
-                model.addAttribute("error", "Incorrect password.");
-                return "user-dashboard";
-            }
-        } else {
-            model.addAttribute("error", "No account found with that email.");
-            return "user-dashboard";
-        }
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/auth/login";
     }
+
+
+    @GetMapping("/favicon.ico")
+    @ResponseBody
+    public void disableFavicon() {
+        // no-op to prevent error
+    }
+
+
+
 }
+
+

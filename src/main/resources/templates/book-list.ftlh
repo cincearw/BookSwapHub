@@ -28,7 +28,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/dashboard">Dashboard</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/customer/dashboard">Dashboard</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/library">Books</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/reviews">Reviews</a></li>

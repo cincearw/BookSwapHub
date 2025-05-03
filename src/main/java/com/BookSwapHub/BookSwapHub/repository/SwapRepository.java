@@ -19,6 +19,16 @@ public interface SwapRepository extends JpaRepository<Swap, Long> {
     List<Swap> findByBookProvider(User provider);
 
 
-    @Query("SELECT COUNT(s) FROM Swap s WHERE s.book.provider.userId = :providerId")
-    long countByProviderId(@Param("providerId") Long providerId);
+    int countByRequester_UserIdAndStatus(Long requesterId, String status);
+
+
+    @Query("SELECT COUNT(s) FROM Swap s WHERE s.book.provider.id = :providerId AND s.status = :status")
+    int countByProvider_IdAndStatus(@Param("providerId") Long providerId, @Param("status") String status);
+
+    @Query("SELECT COUNT(s) FROM Swap s WHERE s.book.provider.id = :providerId")
+    int countByProviderId(@Param("providerId") Long providerId);
+
+
+
+
 }

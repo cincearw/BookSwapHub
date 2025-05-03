@@ -43,4 +43,10 @@ public class MessageService {
                 .orElseThrow(() -> new RuntimeException("Sender not found"));
         return messageRepository.findBySender(sender);
     }
+
+    public int countUnreadMessagesForUser(Long userId) {
+        // TODO: Replace with actual logic — placeholder for now
+        return 0;
+    }
+
 }

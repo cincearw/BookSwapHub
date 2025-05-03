@@ -7,7 +7,10 @@ import com.BookSwapHub.BookSwapHub.repository.BookRepository;
 import com.BookSwapHub.BookSwapHub.repository.ReviewRepository;
 import com.BookSwapHub.BookSwapHub.repository.UserRepository;
 import com.BookSwapHub.BookSwapHub.service.BookService;
+import com.BookSwapHub.BookSwapHub.service.MessageService;
 import com.BookSwapHub.BookSwapHub.service.ReviewService;
+import com.BookSwapHub.BookSwapHub.service.SwapService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +39,14 @@ public class CustomerViewController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private SwapService swapService;
+
+    @Autowired
+    private MessageService messageService;
+
+
+
     @GetMapping("/library")
     public String showLibrary(
             @RequestParam(required = false) String genre,
@@ -61,11 +72,15 @@ public class CustomerViewController {
 
 
     @GetMapping("/reviews")
-    public String showReviewPage(Model model) {
-        model.addAttribute("review", new Review());
-        model.addAttribute("reviews", reviewService.getAllReviews());
-        model.addAttribute("users", userRepository.findAll());
+    public String showReviewPage(HttpSession session, Model model) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("loggedInUsername", loggedInUser.getUsername());
         model.addAttribute("books", bookRepository.findAll());
+        model.addAttribute("reviews", reviewService.getAllReviews());
         return "review-page";
     }
 
@@ -93,6 +108,28 @@ public class CustomerViewController {
         reviewRepository.save(review);
         return "redirect:/reviews";
     }
+
+    @GetMapping("/customer/dashboard")
+    public String customerDashboard(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User user = userRepository.findById(userId).orElse(null);
+        int pendingSwaps = swapService.countPendingSwapsByUserId(userId);
+        int acceptedSwaps = swapService.countAcceptedSwapsByUserId(userId);
+        int messages = messageService.countUnreadMessagesForUser(userId);
+
+        model.addAttribute("user", user);
+        model.addAttribute("pendingSwaps", pendingSwaps);
+        model.addAttribute("acceptedSwaps", acceptedSwaps);
+        model.addAttribute("messages", messages);
+
+        return "customer-dashboard";
+    }
+
 
 
 

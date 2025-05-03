@@ -6,7 +6,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>BookSwap Hub - Reviews</title>
-  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
@@ -32,7 +32,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto">
-        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="customer.html">Dashboard</a></li>
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/customer/dashboard">Dashboard</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/library">Books</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="profile.html">Profile</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/reviews">Reviews</a></li>
@@ -85,12 +85,7 @@
     <h2 class="text-center">Leave a Review</h2>
     <form action="/reviews" method="post">
       <div class="mb-3">
-        <label for="username" class="form-label">Your Username:</label>
-        <select name="username" id="username" class="form-select" required>
-          <#list users as user>
-          <option value="${user.username}">${user.username}</option>
-        </#list>
-        </select>
+        <input type="text" class="form-control" name="username" value="${loggedInUsername}" readonly>
       </div>
 
       <div class="mb-3">
