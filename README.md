@@ -61,6 +61,10 @@ These accounts can be used for quick login during testing:
 - **Email:** `sk@example.com`  
 - **Password:** `1234`
 
+-**Email:** `cute123@gmail.com`
+- **Password:** `blahblah123`
+
+
 ### Provider
 - **Email:** `pro123@gmail.com`  
 - **Password:** `pro123`
@@ -84,14 +88,14 @@ These accounts can be used for quick login during testing:
 ---
 
 ### Customer: Write reviews
-- **C1** requests a swap for a book.
+- **C2** signs up, logs in, and requests a swap for a book.
 - After the swap is completed, C2 visits `/reviews` and writes a positive review.
 
 ---
 
-### Provider: Respond to reviews and update profile
+### Provider: Respond to messages and update profile
 - P1 logs in and visits `/provider/{id}` to read reviews.
-- P1 replies to both the helpful and inappropriate reviews.
+- P1 replies to any messages from requesters.
 - P1 views book swap statistics.
 - P1 updates their profile bio or favorite genres and logs out.
 
@@ -109,6 +113,25 @@ These accounts can be used for quick login during testing:
 - The swap is shown as **pending**.
 - P1 logs in and marks the request as **accepted**.
 - C1 later sees the accepted status under `/swaps`.
+
+---
+
+## Features Demonstrated
+
+### Customer Use Cases
+- Create/modify profile  
+- View books and reviews  
+- Send, receive, and delete messages  
+- Request book swaps  
+- Write and view reviews from self and other users  
+- View swap status  
+
+### Provider Use Cases
+- Register and create profile  
+- Add/manage book listings  
+- Respond to reviews  
+- Read messages
+-  View statistics  
 
 ---
 
