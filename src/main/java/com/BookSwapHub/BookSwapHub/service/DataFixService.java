@@ -28,7 +28,7 @@ public class DataFixService {
                 .toList();
 
         if (booksWithoutOwner.isEmpty()) {
-            System.out.println("✅ All books already have owners.");
+            System.out.println("All books already have owners.");
             return;
         }
 
@@ -42,7 +42,7 @@ public class DataFixService {
             bookRepository.save(book);
         }
 
-        System.out.println("✅ Assigned fallback owner to " + booksWithoutOwner.size() + " book(s).");
+        System.out.println("Assigned fallback owner to " + booksWithoutOwner.size() + " book(s).");
     }
 }
 

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -224,6 +225,62 @@ public class CustomerViewController {
         messageService.deleteMessageById(messageId); // You’ll add this in the service
         return "redirect:/messages";
     }
+
+    @PostMapping("/profile/update")
+    public String updateProfile(@RequestParam String name,
+                                @RequestParam(required = false) String bio,
+                                @RequestParam(required = false) String favoriteGenres,
+                                HttpSession session,
+                                Model model) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User user = userRepository.findById(userId).orElseThrow();
+
+        user.setName(name);
+        user.setBio(bio); // treat this as "location"
+        user.setFavoriteGenres(favoriteGenres);
+        userRepository.save(user);
+
+        // Add confirmation
+        model.addAttribute("successMessage", "Profile updated successfully!");
+
+        // Refresh values
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        String formattedDate = user.getCreatedAt().format(formatter);
+        model.addAttribute("user", user);
+        model.addAttribute("memberSince", formattedDate);
+
+        return "profile";
+    }
+
+
+
+    @GetMapping("/profile")
+    public String showProfilePage(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User user = userRepository.findById(userId).orElseThrow();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+
+        // Add this line for formatted "Member Since"
+        String formattedDate = user.getCreatedAt().format(formatter);
+
+        model.addAttribute("user", user);
+        model.addAttribute("memberSince", formattedDate);
+
+
+        return "profile"; // profile.ftlh
+    }
+
+
+
+
 
 
 

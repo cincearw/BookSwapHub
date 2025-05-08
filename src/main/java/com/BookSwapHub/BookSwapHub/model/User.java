@@ -30,6 +30,10 @@ public class User {
 
     private LocalDate createdAt;
 
+    private String bio;
+
+    private String favoriteGenres;
+
     //Constructors
     public User(){this.createdAt = LocalDate.now();} //set default
 
@@ -62,6 +66,12 @@ public class User {
         return createdAt;
     }
 
+    public String getBio(){ return bio; }
+
+    public String getFavoriteGenres() {
+        return favoriteGenres;
+    }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -88,5 +98,13 @@ public class User {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setBio(String favoriteGenres) {
+        this.bio = favoriteGenres;
+    }
+
+    public void setFavoriteGenres(String favoriteGenres) {
+        this.favoriteGenres = favoriteGenres;
     }
 }

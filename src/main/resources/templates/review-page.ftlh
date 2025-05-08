@@ -35,7 +35,7 @@
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/customer/dashboard">Dashboard</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/library">Books</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/swaps">Swaps</a></li>
-        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="profile.html">Profile</a></li>
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/reviews">Reviews</a></li>
         <li class="nav-item px-lg-4">
           <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
@@ -126,7 +126,7 @@
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Your custom JS -->
+  <!--  JS -->
   <script src="/js/scripts.js"></script>
 
 <!-- Logout Script -->

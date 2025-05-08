@@ -33,7 +33,8 @@
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/swaps">Swaps</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/reviews">Reviews</a></li>
-                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a></li>
+                <li class="nav-item px-lg-4">
+                    <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
             </ul>
         </div>
     </div>
@@ -155,10 +156,17 @@
     }
 </script>
 
+<!-- Logout Script -->
 <script>
     function logout() {
-      if (confirm("Are you sure you want to log out?")) {
-        window.location.href = "/index.html";
+      console.log("Logout button clicked");
+
+      let confirmLogout = confirm("Are you sure you want to log out?");
+      if (confirmLogout) {
+        console.log("User confirmed logout");
+        window.location.href = "../index.html";
+      } else {
+        console.log("User canceled logout");
       }
     }
 </script>
