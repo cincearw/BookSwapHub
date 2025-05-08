@@ -18,10 +18,17 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -139,6 +146,81 @@ public class ProviderViewController {
     }
 
 
+    @GetMapping("/requests")
+    public String viewRequests(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        model.addAttribute("provider", provider);
+        model.addAttribute("swapRequests", swapService.getSwapsByProvider(userId));
+        return "swapRequests"; // maps to swaps.ftlh
+    }
+
+
+    @GetMapping("/provider/manage")
+    public String manageBooks(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        model.addAttribute("provider", provider);
+        model.addAttribute("books", bookService.getBooksByProvider(userId));
+
+
+        return "manage-books"; // maps to manage_books.ftlh
+    }
+
+
+
+    @GetMapping("/provider/add-book")
+    public String showAddBookForm(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        model.addAttribute("provider", provider);
+        if (provider == null) {
+            return "redirect:/login";  // Redirect to login if the user is not found
+        }
+        model.addAttribute("book", new Book());
+        return "add-book";
+    }
+
+    @PostMapping("/provider/add-book")
+    public String processAddBook(
+            @RequestParam("title") String title,
+            @RequestParam("author") String author,
+            @RequestParam("genre") String genre,
+            @RequestParam("description") String description,
+            @RequestParam("image") MultipartFile image,
+            HttpSession session
+    ) {
+        Long userId = (Long) session.getAttribute("userId");
+        Provider provider = providerRepository.findById(userId).orElse(null);
+
+
+        // Save uploaded image to /static/assets/img
+        String relativePath = "src/main/resources/static/assets/img/";
+        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+        Path imagePath = Paths.get(relativePath + fileName);
+        try {
+            Files.createDirectories(imagePath.getParent());
+            Files.write(imagePath, image.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/provider/add-book?error=image";
+        }
+
+        String imageUrl = "/assets/img/" + fileName;
+
+        // Create and save the book
+        Book book = new Book();
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setGenre(genre);
+        book.setDescription(description);
+        book.setImageUrl(imageUrl);
+        book.setOwner(provider);
+
+        bookService.addBook(book, userId);
+        return "redirect:/provider/manage";
+    }
+
     @GetMapping("/favicon.ico")
     @ResponseBody
     public void disableFavicon() {
@@ -148,5 +230,3 @@ public class ProviderViewController {
 
 
 }
-
-

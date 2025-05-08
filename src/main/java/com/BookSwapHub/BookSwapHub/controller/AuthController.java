@@ -1,6 +1,7 @@
 package com.BookSwapHub.BookSwapHub.controller;
 
 import com.BookSwapHub.BookSwapHub.model.Provider;
+import com.BookSwapHub.BookSwapHub.service.ProviderService;
 import org.springframework.stereotype.Controller;
 import com.BookSwapHub.BookSwapHub.repository.UserRepository;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
 
     //signup endpoint
     @GetMapping("/signup")

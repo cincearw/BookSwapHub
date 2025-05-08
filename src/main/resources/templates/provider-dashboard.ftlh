@@ -37,10 +37,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/provider/home">Home</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider">Manage Books</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/manage">Manage Books</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/requests">Swap Requests</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/listings">Listings</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/stats">Profile</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/${provider.userId}">Profile</a></li>
                     <a class="nav-link text-uppercase" href="/logout">Logout</a>
                 </ul>
             </div>
@@ -50,10 +50,10 @@
     <section class="container my-5">
         <div class="row text-center">
             <#list [
-            {"title": "Manage Books", "desc": "View and edit your book collection.", "link": "/provider"},
+            {"title": "Manage Books", "desc": "View and edit your book collection.", "link": "/provider/manage"},
             {"title": "Swap Requests", "desc": "Check pending swap requests.", "link": "/requests"},
             {"title": "Listings", "desc": "Manage your listed books.", "link": "/listings"},
-            {"title": "Profile", "desc": "Update your provider details.", "link": "/stats"}
+            {"title": "Profile", "desc": "Update your provider details.", "link": "/provider/${provider.userId}"}
             ] as card>
             <div class="col-md-6 col-lg-3 mb-4">
                 <div class="card bg-warning text-dark shadow-sm h-100">
