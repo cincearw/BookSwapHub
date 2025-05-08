@@ -227,6 +227,13 @@ public class ProviderViewController {
         // no-op to prevent error
     }
 
+    @PostMapping("/requests/{swapId}/accept")
+    public String acceptSwap(@PathVariable Long swapId) {
+        swapService.updateSwapStatus(swapId, "accepted");
+        return "redirect:/requests";
+    }
+
+
 
 
 }

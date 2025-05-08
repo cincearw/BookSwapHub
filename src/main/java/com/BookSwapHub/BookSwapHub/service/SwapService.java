@@ -103,5 +103,11 @@ public class SwapService {
     }
 
 
+    public Swap updateSwapStatus(Long swapId, String status) {
+        Swap swap = swapRepository.findById(swapId)
+                .orElseThrow(() -> new RuntimeException("Swap not found with id: " + swapId));
+        swap.setStatus(status);
+        return swapRepository.save(swap);
+    }
 
 }
