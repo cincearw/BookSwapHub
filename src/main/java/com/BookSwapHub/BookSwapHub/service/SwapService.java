@@ -26,12 +26,12 @@ public class SwapService {
     @Autowired
     private BookRepository bookRepository;
 
-    public List<Swap> getSwapsByUser(Long userId){
+    public List<Swap> getSwapsByUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         return swapRepository.findByRequester(user);
     }
 
-    public Swap createSwap(Swap swap){
+    public Swap createSwap(Swap swap) {
         // Fetch full user and book objects before saving the swap
         User requester = userRepository.findById(swap.getRequester().getUserId())
                 .orElseThrow(() -> new RuntimeException("Requester not found with id: " + swap.getRequester().getUserId()));
@@ -121,11 +121,12 @@ public class SwapService {
         swapRepository.save(swap);
     }
 
-    public Swap updateSwapStatus(Long swapId, String status) {
+
+    public void updateSwapStatus(Long swapId, String status) {
         Swap swap = swapRepository.findById(swapId)
                 .orElseThrow(() -> new RuntimeException("Swap not found with id: " + swapId));
-        swap.setStatus(status);
-        return swapRepository.save(swap);
-    }
 
+        swap.setStatus(status.toLowerCase()); // Normalize the status to lowercase or format as needed
+        swapRepository.save(swap);
+    }
 }

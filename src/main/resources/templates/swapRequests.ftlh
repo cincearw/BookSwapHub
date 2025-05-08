@@ -36,6 +36,7 @@
 
         <div class="row justify-content-center">
             <#list swapRequests as request>
+
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -48,6 +49,13 @@
                     </div>
                 </div>
             </div>
+
+            <a href="/requests/${request.id}" class="list-group-item list-group-item-action">
+                <h5 class="mb-1">${request.book.title}</h5>
+                <p class="mb-1">${request.customer.name} is requesting your book!</p>
+                <small>${request.dateRequested}</small>
+            </a>
+
         </#list>
         </div>
     </section>
@@ -63,11 +71,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- Logout Script -->
 <script>
     function logout() {
+      console.log("Logout button clicked");
+
       let confirmLogout = confirm("Are you sure you want to log out?");
       if (confirmLogout) {
+        console.log("User confirmed logout");
         window.location.href = "../index.html";
+      } else {
+        console.log("User canceled logout");
       }
     }
 </script>

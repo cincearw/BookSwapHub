@@ -48,13 +48,6 @@ public class CustomerController {
         return swapService.getSwapsByUser(userId);
     }
 
-    @PutMapping("/swaps/{swapId}/status")
-    public ResponseEntity<Swap> updateSwapStatus(@PathVariable Long swapId, @RequestParam String status) {
-        Swap updatedSwap = swapService.updateSwapStatus(swapId, status);
-        return ResponseEntity.ok(updatedSwap);
-    }
-
-
     @PostMapping("/reviews")
     public Review submitReview(@RequestBody Review review){
         return reviewService.submitReview(review);

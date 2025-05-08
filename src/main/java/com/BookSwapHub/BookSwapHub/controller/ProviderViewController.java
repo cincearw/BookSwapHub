@@ -338,6 +338,7 @@ public class ProviderViewController {
         return "provider-messages";
     }
 
+
     @PostMapping("/requests/{swapId}/accept")
     public String acceptSwap(@PathVariable Long swapId) {
         swapService.updateSwapStatus(swapId, "accepted");
@@ -358,6 +359,7 @@ public class ProviderViewController {
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+
 
 
         Message message = new Message();
