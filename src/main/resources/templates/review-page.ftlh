@@ -90,10 +90,10 @@
       </div>
 
       <div class="mb-3">
-        <label style="color: black;" for="bookTitle" class="form-label">Book Title:</label>
-        <select name="bookTitle" id="bookTitle" class="form-select" required>
+        <label style="color: black;" for="bookId" class="form-label">Book Title:</label>
+        <select name="bookId" id="bookId" class="form-select" required>
           <#list books as book>
-          <option value="${book.title}">${book.title}</option>
+          <option value="${book.bookId}">${book.title}</option>
         </#list>
         </select>
       </div>
