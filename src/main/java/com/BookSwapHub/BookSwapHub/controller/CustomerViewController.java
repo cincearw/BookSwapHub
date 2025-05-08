@@ -89,16 +89,18 @@ public class CustomerViewController {
 
 
 
+
+
     @PostMapping("/reviews")
-    public String submitReview(
-            @RequestParam String username,
-            @RequestParam String bookTitle,
-            @RequestParam int rating,
-            @RequestParam String comment) {
+    public String submitReview(@RequestParam String username,
+                               @RequestParam Long bookId,
+                               @RequestParam int rating,
+                               @RequestParam String comment) {
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        Book book = bookRepository.findByTitle(bookTitle)
+
+        Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new RuntimeException("Book not found"));
 
         Review review = new Review();
@@ -111,6 +113,8 @@ public class CustomerViewController {
         reviewRepository.save(review);
         return "redirect:/reviews";
     }
+
+
 
     @GetMapping("/books/{bookId}/reviews")
     public String showBookReviews(@PathVariable Long bookId, Model model) {

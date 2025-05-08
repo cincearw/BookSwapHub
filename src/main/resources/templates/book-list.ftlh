@@ -91,12 +91,13 @@
                         <p class="card-text">by ${book.author}</p>
                         <p class="text-muted">Genre: ${book.genre}</p>
                         <p class="small">${book.description}</p>
-                        <a href="/reviews" class="btn btn-success mt-auto w-100">Leave a Review</a>
-
-                        <!-- Swap Request Button -->
-                        <form onsubmit="requestSwap(event, ${book.bookId})">
-                            <button type="submit" class="btn btn-outline-primary w-100">Request Swap</button>
-                        </form>
+                        <div class="mt-auto">
+                            <a href="/books/${book.bookId}/reviews" class="btn btn-outline-secondary w-100 mb-2">See Reviews</a>
+                            <a href="/reviews" class="btn btn-success w-100 mb-2">Leave a Review</a>
+                            <form onsubmit="requestSwap(event, ${book.bookId})">
+                                <button type="submit" class="btn btn-outline-primary w-100">Request Swap</button>
+                            </form>
+                        </div>
 
                     </div>
                 </div>
