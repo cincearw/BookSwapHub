@@ -14,7 +14,7 @@
 
 <div class="container mt-4">
     <#if reviews?size == 0>
-    <p style="color: white;" class="text-center">No reviews yet for this book.</p>
+    <p style="color: black;" class="text-center">No reviews yet for this book.</p>
     <#else>
     <div class="row">
         <#list reviews as review>

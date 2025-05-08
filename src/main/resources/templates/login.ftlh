@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-/1lmVZbAK1Rx0v4Z7N5rMF1FD6J8PlxOpfqpX6t13v6d1nR/6khkXeM2jLHLu4o3m+BF6ClnRj6vMgM2e/sWqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/styles.css" />
 </head>
-<body class="bg-dark text-light d-flex justify-content-center align-items-center vh-100">
+<body style="background-image: url('/assets/img/book_background.jpg'); background-size: cover; background-position: center;" class="text-light d-flex justify-content-center align-items-center vh-100">
+
 
 <div class="container text-center">
     <h1 class="text-warning">BookSwap Hub</h1>

@@ -83,14 +83,14 @@
 <!-- Leave a Review -->
 <section class="page-section">
   <div class="container">
-    <h2 style="color: white;" class="text-center">Leave a Review</h2>
+    <h2 style="color: black;" class="text-center">Leave a Review</h2>
     <form action="/reviews" method="post">
       <div class="mb-3">
         <input type="text" class="form-control" name="username" value="${loggedInUsername}" readonly>
       </div>
 
       <div class="mb-3">
-        <label style="color: white;" for="bookTitle" class="form-label">Book Title:</label>
+        <label style="color: black;" for="bookTitle" class="form-label">Book Title:</label>
         <select name="bookTitle" id="bookTitle" class="form-select" required>
           <#list books as book>
           <option value="${book.title}">${book.title}</option>
@@ -99,7 +99,7 @@
       </div>
 
       <div class="mb-3">
-        <label for="rating" style="color: white;">Rating:</label>
+        <label for="rating" style="color: black;">Rating:</label>
         <select name="rating" class="form-select" required>
           <option value="5">⭐⭐⭐⭐⭐</option>
           <option value="4">⭐⭐⭐⭐</option>
@@ -109,7 +109,7 @@
         </select>
       </div>
       <div class="mb-3">
-        <label for="comment" style="color: white;">Comment:</label>
+        <label for="comment" style="color: black;">Comment:</label>
         <textarea name="comment" class="form-control" rows="3" required></textarea>
       </div>
       <button class="btn btn-primary w-100" type="submit">Submit Review</button>
