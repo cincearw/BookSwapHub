@@ -249,6 +249,32 @@ public class ProviderViewController {
     }
 
 
+
+    @GetMapping("/provider/editBook/{bookId}")
+    public String showEditBookForm(@PathVariable Long bookId, Model model) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+        model.addAttribute("book", book);
+        return "edit-book"; // Template file you'll create next
+    }
+
+    @PostMapping("/provider/editBook/{bookId}")
+    public String processEditBook(@PathVariable Long bookId,
+                                  @RequestParam String title,
+                                  @RequestParam String author,
+                                  @RequestParam String genre,
+                                  @RequestParam String description) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setGenre(genre);
+        book.setDescription(description);
+        bookRepository.save(book);
+        return "redirect:/provider/manage";
+    }
+
+
+
+
     @PostMapping("/{id}/{action}")
     public String handleRequestAction(Model model, HttpSession session, @PathVariable String action) {
 

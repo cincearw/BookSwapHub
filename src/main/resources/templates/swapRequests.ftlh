@@ -32,18 +32,26 @@
     </nav>
 
     <section class="container my-5">
-        <h2 style="color: white;" class="text-center">Your Swap Requests</h2>
+        <h2 class="text-center text-white">Your Swap Requests</h2>
 
-        <div class="list-group">
+        <div class="row justify-content-center">
             <#list swapRequests as request>
-            <a href="/requests/${request.id}" class="list-group-item list-group-item-action">
-                <h5 class="mb-1">${request.book.title}</h5>
-                <p class="mb-1">${request.customer.name} is requesting your book!</p>
-                <small>${request.dateRequested}</small>
-            </a>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">${request.book.title}</h5>
+                        <p class="card-text">${request.requester.name} is requesting your book!</p>
+                        <small class="text-muted">${request.requestedAt}</small>
+                        <form action="/requests/${request.swapId}/accept" method="post" class="mt-3">
+                            <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </#list>
         </div>
     </section>
+
 </main>
 
 <!-- Footer -->
