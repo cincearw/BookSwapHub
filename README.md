@@ -31,3 +31,15 @@
     4. Reply to reviews - Users can respond to feedback left by those who have received books from them.
   
 
+## Setup Instructions
+
+1. Start MySQL and open phpMyAdmin
+2. Create a database named `bookswap3`
+3. Import the sample data using:
+   - phpMyAdmin: Go to `Import`, select `db/bookswap3.sql`, and execute.
+   - OR CLI: `mysql -u root -p bookswap3 < db/bookswap3.sql`
+
+This sets up the system with example users, books, messages, swaps, and reviews.
+
+  
+
