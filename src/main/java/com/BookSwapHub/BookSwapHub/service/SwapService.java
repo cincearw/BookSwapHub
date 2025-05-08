@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +103,23 @@ public class SwapService {
         return swapRepository.countByProvider_IdAndStatus(providerId, "pending");
     }
 
+    public void approveSwap(Long swapId) {
+        Swap swap = swapRepository.findById(swapId)
+                .orElseThrow(() -> new RuntimeException("Swap not found with ID: " + swapId));
+
+        swap.setStatus("APPROVED"); // or use an enum if you have one
+        swap.setUpdatedAt(LocalDate.from(LocalDateTime.now()));
+        swapRepository.save(swap);
+    }
+
+    public void denySwap(Long swapId) {
+        Swap swap = swapRepository.findById(swapId)
+                .orElseThrow(() -> new RuntimeException("Swap not found with ID: " + swapId));
+
+        swap.setStatus("DENIED");
+        swap.setUpdatedAt(LocalDate.from(LocalDateTime.now()));
+        swapRepository.save(swap);
+    }
 
     public Swap updateSwapStatus(Long swapId, String status) {
         Swap swap = swapRepository.findById(swapId)

@@ -39,7 +39,6 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/provider/home">Home</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/manage">Manage Books</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/requests">Swap Requests</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/listings">Listings</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/${provider.userId}">Profile</a></li>
                     <li class="nav-item px-lg-4">
                         <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
@@ -54,7 +53,7 @@
             <#list [
             {"title": "Manage Books", "desc": "View and edit your book collection.", "link": "/provider/manage"},
             {"title": "Swap Requests", "desc": "Check pending swap requests.", "link": "/requests"},
-            {"title": "Listings", "desc": "Manage your listed books.", "link": "/listings"},
+            {"title": "Messages", "desc": "View inbox", "link": "/provider/messages"},
             {"title": "Profile", "desc": "Update your provider details.", "link": "/provider/${provider.userId}"}
             ] as card>
             <div class="col-md-6 col-lg-3 mb-4">
@@ -70,25 +69,6 @@
         </div>
     </section>
 
-    <section class="container mt-4">
-        <div class="bg-light p-4 rounded shadow-sm">
-            <h4 class="text-dark mb-3">📢 New Notifications</h4>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    You have <strong>${newRequests!0}</strong> new swap requests.
-                    <a href="/requests" class="btn btn-sm btn-outline-warning">View</a>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Your listing "<strong>The Great Gatsby</strong>" was requested.
-                    <a href="/listings" class="btn btn-sm btn-outline-warning">Manage</a>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Profile update reminder: Keep your profile updated.
-                    <a href="/stats" class="btn btn-sm btn-outline-warning">Edit</a>
-                </li>
-            </ul>
-        </div>
-    </section>
 </main>
 
 <footer class="footer text-center py-4 bg-dark text-light border-top border-light mt-auto">

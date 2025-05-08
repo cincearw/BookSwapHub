@@ -28,18 +28,17 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/home">Home</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/provider/manage">Manage Books</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/requests">Swap Requests</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/listings">Listings</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/${provider.userId}">Profile</a></li>
-                    <li class="nav-item px-lg-4">
-                        <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
-                    </li>
+                    <a class="nav-link text-uppercase" href="/logout">Logout</a>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section class="container my-5">
-        <div class="bg-white p-4 rounded shadow-sm mb-4">
+
+        <!-- Profile Display -->
+        <div class="bg-white p-4 rounded shadow-sm mb-4" id="providerInfo">
             <h3 class="text-dark">👤 Provider Information</h3>
             <p><strong>Username:</strong> ${provider.username}</p>
             <p><strong>Name:</strong> ${provider.name}</p>
@@ -48,6 +47,27 @@
             <p><strong>Rating:</strong> <#if provider.rating??>${provider.rating}<#else>No rating yet</#if></p>
         </div>
 
+        <!-- Edit Form -->
+        <div class="bg-white p-4 rounded shadow-sm mb-4">
+            <h4 class="text-dark">✏️ Edit Profile</h4>
+            <form action="/provider/update/${provider.userId}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-bold">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" value="${provider.username}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="bio" class="form-label fw-bold">Bio</label>
+                    <textarea id="bio" name="bio" class="form-control" required>${provider.bio!""}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="${provider.name}" required>
+                </div>
+                <button type="submit" class="btn btn-warning">Save Changes</button> <!-- Save Changes Button -->
+            </form>
+        </div>
+
+        <!-- Stats Section -->
         <div class="bg-white p-4 rounded shadow-sm mb-4">
             <h4 class="text-dark">📊 Stats</h4>
             <div class="row text-center">
@@ -62,30 +82,13 @@
             </div>
         </div>
 
-        <div class="bg-white p-4 rounded shadow-sm mb-4">
-            <h4 class="text-dark">✏️ Edit Profile</h4>
-            <form action="/provider/update/${provider.userId}" method="post">
-                <div class="mb-3">
-                    <label for="username" class="form-label fw-bold">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" value="${provider.username}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="bio" class="form-label fw-bold">Bio</label>
-                    <textarea id="bio" name="bio" class="form-control" required>${provider.bio}</textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="name" class="form-label fw-bold">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" value="${provider.name}" required>
-                </div>
-                <button type="submit" class="btn btn-warning">Update</button>
-            </form>
-        </div>
-
+        <!-- Delete Profile -->
         <div class="bg-white p-4 rounded shadow-sm">
-            <form action="/provider/delete/${provider.userId}" method="post" onsubmit="return confirm('Are you sure you want to delete your profile?');">
+            <form action="/delete/${provider.userId}" method="post" onsubmit="return confirm('Are you sure you want to delete your profile?');">
                 <button type="submit" class="btn btn-danger">Delete Profile</button>
             </form>
         </div>
+
     </section>
 </main>
 
@@ -97,6 +100,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="/js/scripts.js"></script>
 <!-- Logout Script -->
 <script>
     function logout() {
@@ -111,6 +115,5 @@
       }
     }
 </script>
-
 </body>
 </html>

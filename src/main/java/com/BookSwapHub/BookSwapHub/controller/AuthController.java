@@ -23,6 +23,9 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ProviderService providerService;
+
 
     //signup endpoint
     @GetMapping("/signup")
@@ -58,8 +61,8 @@ public class AuthController {
             provider.setName(name);
             provider.setEmail(email);
 
-            userService.registerUser(provider);
-            return "redirect:/provider/home?userId=" + provider.getUserId();
+            providerService.registerProvider(provider);
+            return "login";
 
         }
 
@@ -112,7 +115,9 @@ public class AuthController {
                 if ("Customer".equalsIgnoreCase(user.getRole())) {
                     return "redirect:/customer/dashboard";
                 } else if ("Provider".equalsIgnoreCase(user.getRole())) {
-                    return "redirect:/provider/home";
+
+                    model.addAttribute("provider", user);
+                    return "provider-dashboard";
                 } else {
                     model.addAttribute("error", true);
                     return "login";
