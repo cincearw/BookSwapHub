@@ -33,7 +33,9 @@
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/swaps">Swaps</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/reviews">Reviews</a></li>
-                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/logout">Logout</a></li>
+                <li class="nav-item px-lg-4">
+                    <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -85,6 +87,24 @@
     </div>
 </footer>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Logout Script -->
+<script>
+    function logout() {
+      console.log("Logout button clicked");
+
+      let confirmLogout = confirm("Are you sure you want to log out?");
+      if (confirmLogout) {
+        console.log("User confirmed logout");
+        window.location.href = "../index.html";
+      } else {
+        console.log("User canceled logout");
+      }
+    }
+</script>
+
+
 </body>
 </html>

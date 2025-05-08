@@ -92,7 +92,9 @@
 
 <!-- Footer -->
 <footer class="footer text-faded text-center py-5 bg-dark text-light">
-    <div class="container"><p class="m-0 small">© BookSwap Hub 2025</p></div>
+    <div class="container">
+        <p class="m-0 small">Copyright &copy; BookSwap Hub 2025</p>
+    </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

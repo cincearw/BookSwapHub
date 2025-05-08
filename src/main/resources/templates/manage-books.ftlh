@@ -24,15 +24,17 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/requests">Swap Requests</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/listings">Listings</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/${provider.userId}">Profile</a></li>
-                    <a class="nav-link text-uppercase" href="/logout">Logout</a>
+                    <li class="nav-item px-lg-4">
+                        <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section class="container my-5">
-        <h2 class="text-center">Manage Your Books</h2>
-        <p class="text-center">Here you can add, edit, or remove your books from the library.</p>
+        <h2 style="color: white;" class="text-center">Manage Your Books</h2>
+        <p style="color: white;" class="text-center">Here you can add, edit, or remove your books from the library.</p>
 
         <div class="row text-center">
             <#list books as book>
@@ -62,5 +64,22 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Logout Script -->
+<script>
+    function logout() {
+      console.log("Logout button clicked");
+
+      let confirmLogout = confirm("Are you sure you want to log out?");
+      if (confirmLogout) {
+        console.log("User confirmed logout");
+        window.location.href = "../index.html";
+      } else {
+        console.log("User canceled logout");
+      }
+    }
+</script>
+
+
 </body>
 </html>
