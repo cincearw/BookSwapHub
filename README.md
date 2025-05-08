@@ -61,7 +61,7 @@ These accounts can be used for quick login during testing:
 - **Email:** `sk@example.com`  
 - **Password:** `1234`
 
--**Email:** `cute123@gmail.com`
+- **Email:** `cute123@gmail.com`
 - **Password:** `blahblah123`
 
 
