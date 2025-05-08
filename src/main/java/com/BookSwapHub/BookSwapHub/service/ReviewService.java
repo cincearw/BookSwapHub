@@ -73,4 +73,8 @@ public class ReviewService {
         return reviews;
     }
 
+    public List<Review> getReviewsByBook(Book book) {
+        return reviewRepository.findByBook(book);
+    }
+
 }

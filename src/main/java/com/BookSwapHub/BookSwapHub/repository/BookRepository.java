@@ -11,7 +11,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface
+BookRepository extends JpaRepository<Book, Long> {
 
     // Get all books provided by a specific provider
     List<Book> findByProvider(User provider);
@@ -27,4 +28,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT COUNT(b) FROM Book b WHERE b.provider.userId = :providerId")
     long countByProviderId(@Param("providerId") Long providerId);
+
+    List<Book> findAllByOwnerUserIdNot(Long userId);
+
+
+
 }

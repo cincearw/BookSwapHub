@@ -26,6 +26,9 @@ public class Message {
     @Column(length = 20)
     private String status; // "read", "unread", etc.
 
+    @Transient
+    private String formattedCreatedAt;
+
     public Message() {
         this.createdAt = LocalDate.now();
         this.status = "unread";
@@ -38,6 +41,7 @@ public class Message {
     public String getContent() { return content; }
     public LocalDate getCreatedAt() { return createdAt; }
     public String getStatus() { return status; }
+    public String getFormattedCreatedAt() { return formattedCreatedAt; }
 
     public void setMessageId(Long messageId) { this.messageId = messageId; }
     public void setSender(User sender) { this.sender = sender; }
@@ -45,4 +49,6 @@ public class Message {
     public void setContent(String content) { this.content = content; }
     public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
     public void setStatus(String status) { this.status = status; }
+    public void setFormattedCreatedAt(String formattedCreatedAt) {this.formattedCreatedAt = formattedCreatedAt; }
+
 }

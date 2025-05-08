@@ -1,8 +1,6 @@
 package com.BookSwapHub.BookSwapHub.controller;
 
-import com.BookSwapHub.BookSwapHub.model.Book;
-import com.BookSwapHub.BookSwapHub.model.Review;
-import com.BookSwapHub.BookSwapHub.model.User;
+import com.BookSwapHub.BookSwapHub.model.*;
 import com.BookSwapHub.BookSwapHub.repository.BookRepository;
 import com.BookSwapHub.BookSwapHub.repository.ReviewRepository;
 import com.BookSwapHub.BookSwapHub.repository.UserRepository;
@@ -52,7 +50,8 @@ public class CustomerViewController {
             @RequestParam(required = false) String genre,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
         Page<Book> bookPage;
         if (genre != null && !genre.isEmpty()) {
@@ -64,8 +63,10 @@ public class CustomerViewController {
         model.addAttribute("books", bookPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", bookPage.getTotalPages());
-        model.addAttribute("genre", genre); // to keep selection active
-        model.addAttribute("genres", bookService.getAllGenres()); // optional: distinct list of genres
+        model.addAttribute("genre", genre);
+        model.addAttribute("genres", bookService.getAllGenres());
+        model.addAttribute("userId", session.getAttribute("userId"));
+
         return "book-list";
     }
 
@@ -80,9 +81,10 @@ public class CustomerViewController {
 
         model.addAttribute("loggedInUsername", loggedInUser.getUsername());
         model.addAttribute("books", bookRepository.findAll());
-        model.addAttribute("reviews", reviewService.getAllReviews());
+        model.addAttribute("reviews", reviewService.getReviewsByUser(loggedInUser.getUserId()));
         return "review-page";
     }
+
 
 
 
@@ -109,6 +111,19 @@ public class CustomerViewController {
         return "redirect:/reviews";
     }
 
+    @GetMapping("/books/{bookId}/reviews")
+    public String showBookReviews(@PathVariable Long bookId, Model model) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + bookId));
+
+        List<Review> reviews = reviewService.getReviewsByBook(book);
+        model.addAttribute("book", book);
+        model.addAttribute("reviews", reviews);
+
+        return "book-reviews"; // will point to book-reviews.ftlh
+    }
+
+
     @GetMapping("/customer/dashboard")
     public String customerDashboard(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
@@ -129,6 +144,90 @@ public class CustomerViewController {
 
         return "customer-dashboard";
     }
+
+    @GetMapping("/swaps")
+    public String showSwapsPage(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+        List<Swap> swaps = swapService.getSwapsByUser(userId);
+
+        List<Swap> pendingSwaps = swaps.stream()
+                .filter(swap -> "pending".equalsIgnoreCase(swap.getStatus()))
+                .toList();
+
+        List<Swap> acceptedSwaps = swaps.stream()
+                .filter(swap -> "accepted".equalsIgnoreCase(swap.getStatus()))
+                .toList();
+
+        model.addAttribute("pendingSwaps", pendingSwaps);
+        model.addAttribute("acceptedSwaps", acceptedSwaps);
+
+        return "swaps"; // resolves to swaps.ftlh
+    }
+
+
+
+    @GetMapping("/messages")
+    public String showMessages(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User user = userRepository.findById(userId).orElseThrow();
+        model.addAttribute("inbox", messageService.getMessagesByReceiver(userId));
+        model.addAttribute("sent", messageService.getMessagesBySender(userId));
+
+        List<Book> availableBooks = bookRepository.findAllByOwnerUserIdNot(userId);// Exclude own books
+        model.addAttribute("availableBooks", availableBooks);
+
+        return "messages";
+    }
+
+
+    @PostMapping("/messages/send")
+    public String sendMessage(@RequestParam String bookTitle,
+                              @RequestParam String content,
+                              HttpSession session) {
+        Long senderId = (Long) session.getAttribute("userId");
+        if (senderId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+
+        Book targetBook = bookRepository.findByTitle(bookTitle)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        User receiver = targetBook.getOwner();
+
+        Message message = new Message();
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setContent(content);
+        message.setCreatedAt(LocalDate.now());
+        message.setStatus("unread");
+
+        messageService.sendMessage(message);
+
+        return "redirect:/messages";
+    }
+
+
+    @PostMapping("/messages/delete/{messageId}")
+    public String deleteMessage(@PathVariable Long messageId) {
+        messageService.deleteMessageById(messageId); // You’ll add this in the service
+        return "redirect:/messages";
+    }
+
+
+
+
 
 
 

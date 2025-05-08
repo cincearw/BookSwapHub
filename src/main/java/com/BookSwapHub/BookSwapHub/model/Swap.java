@@ -45,6 +45,7 @@ public class Swap{
         return book;
     }
 
+
     public LocalDate getRequestedAt() {
         return requestedAt;
     }
@@ -92,4 +93,18 @@ public class Swap{
     public void setProvider(Provider provider) {
         this.provider = provider;
     }
+
+    public String getBookTitle() {
+        return book != null ? book.getTitle() : "Unknown Book";
+    }
+
+    public String getRequesterName() {
+        return requester != null ? requester.getName() : "Unknown";
+    }
+
+    public String getProviderName() {
+        return provider != null ? provider.getName() : "Unknown";
+    }
+
+
 }

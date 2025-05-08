@@ -27,6 +27,7 @@
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/customer/dashboard">Dashboard</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/library">Books</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/swaps">Swaps</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/reviews">Reviews</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/logout">Logout</a></li>

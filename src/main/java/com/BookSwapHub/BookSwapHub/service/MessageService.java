@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -35,18 +36,38 @@ public class MessageService {
     public List<Message> getMessagesByReceiver(Long receiverId) {
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
-        return messageRepository.findByReceiver(receiver);
+
+        List<Message> messages = messageRepository.findByReceiver(receiver);
+        formatMessageDates(messages);
+        return messages;
     }
 
     public List<Message> getMessagesBySender(Long senderId) {
         User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new RuntimeException("Sender not found"));
-        return messageRepository.findBySender(sender);
+
+        List<Message> messages = messageRepository.findBySender(sender);
+        formatMessageDates(messages);
+        return messages;
     }
 
     public int countUnreadMessagesForUser(Long userId) {
-        // TODO: Replace with actual logic — placeholder for now
-        return 0;
+        return messageRepository.countUnreadMessagesByReceiverId(userId);
+    }
+
+
+    public void deleteMessageById(Long id) {
+        messageRepository.deleteById(id);
+    }
+
+    private void formatMessageDates(List<Message> messages) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy - hh:mm a");
+        for (Message message : messages) {
+            message.setFormattedCreatedAt(
+                    message.getCreatedAt().atStartOfDay().format(formatter)
+            );
+        }
+
     }
 
 }

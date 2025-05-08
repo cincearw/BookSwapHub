@@ -34,6 +34,7 @@
       <ul class="navbar-nav mx-auto">
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/customer/dashboard">Dashboard</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/library">Books</a></li>
+        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/swaps">Swaps</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="profile.html">Profile</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/reviews">Reviews</a></li>
         <li class="nav-item px-lg-4">
@@ -60,7 +61,7 @@
 <!-- User Submitted Reviews -->
 <section class="page-section">
   <div class="container">
-    <h2 class="text-center">Your Submitted Reviews</h2>
+    <h2 style="color: white;" class="text-center">Your Submitted Reviews</h2>
     <div class="row" id="submittedReviews">
       <#list reviews as review>
       <div class="col-md-6 mb-4">
@@ -82,14 +83,14 @@
 <!-- Leave a Review -->
 <section class="page-section">
   <div class="container">
-    <h2 class="text-center">Leave a Review</h2>
+    <h2 style="color: white;" class="text-center">Leave a Review</h2>
     <form action="/reviews" method="post">
       <div class="mb-3">
         <input type="text" class="form-control" name="username" value="${loggedInUsername}" readonly>
       </div>
 
       <div class="mb-3">
-        <label for="bookTitle" class="form-label">Book Title:</label>
+        <label style="color: white;" for="bookTitle" class="form-label">Book Title:</label>
         <select name="bookTitle" id="bookTitle" class="form-select" required>
           <#list books as book>
           <option value="${book.title}">${book.title}</option>
@@ -98,7 +99,7 @@
       </div>
 
       <div class="mb-3">
-        <label>Rating:</label>
+        <label for="rating" style="color: white;">Rating:</label>
         <select name="rating" class="form-select" required>
           <option value="5">⭐⭐⭐⭐⭐</option>
           <option value="4">⭐⭐⭐⭐</option>
@@ -108,7 +109,7 @@
         </select>
       </div>
       <div class="mb-3">
-        <label>Comment:</label>
+        <label for="comment" style="color: white;">Comment:</label>
         <textarea name="comment" class="form-control" rows="3" required></textarea>
       </div>
       <button class="btn btn-primary w-100" type="submit">Submit Review</button>

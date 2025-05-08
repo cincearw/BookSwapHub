@@ -30,6 +30,7 @@
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/customer/dashboard">Dashboard</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/library">Books</a></li>
+                <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/swaps">Swaps</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/reviews">Reviews</a></li>
                 <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a></li>
@@ -56,7 +57,7 @@
         <form method="get" action="/library" class="mb-4">
             <div class="row g-2 align-items-center justify-content-center">
                 <div class="col-auto">
-                    <label for="genre" class="col-form-label fw-bold">Filter by Genre:</label>
+                    <label for="genre" style="color: white; font-weight: bold;" class="col-form-label fw-bold">Filter by Genre:</label>
                 </div>
                 <div class="col-auto">
                     <select name="genre" id="genre" class="form-select">
@@ -83,11 +84,19 @@
                 <div class="card h-100 shadow-sm">
                     <img src="${book.imageUrl!'/assets/img/book-placeholder.jpg'}" class="card-img-top" alt="${book.title}">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">${book.title}</h5>
+                        <h5 class="card-title">
+                            <a href="/books/${book.bookId}/reviews" class="text-decoration-none">${book.title}</a>
+                        </h5>
                         <p class="card-text">by ${book.author}</p>
                         <p class="text-muted">Genre: ${book.genre}</p>
                         <p class="small">${book.description}</p>
                         <a href="/reviews" class="btn btn-success mt-auto w-100">Leave a Review</a>
+
+                        <!-- Swap Request Button -->
+                        <form onsubmit="requestSwap(event, ${book.bookId})">
+                            <button type="submit" class="btn btn-outline-primary w-100">Request Swap</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -117,6 +126,35 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/scripts.js"></script>
+
+<script>
+    function requestSwap(event, bookId) {
+      event.preventDefault();
+
+      const userId = ${userId!0}; // This assumes you're storing the userId in session and passing it to the page
+
+      fetch('/auth/swaps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          book: { bookId: bookId },
+          requester: { userId: userId }
+        })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to request swap");
+        return res.json();
+      })
+      .then(data => {
+        alert("Swap requested successfully!");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error requesting swap.");
+      });
+    }
+</script>
+
 <script>
     function logout() {
       if (confirm("Are you sure you want to log out?")) {
