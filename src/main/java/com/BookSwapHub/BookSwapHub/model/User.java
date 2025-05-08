@@ -100,8 +100,8 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public void setBio(String favoriteGenres) {
-        this.bio = favoriteGenres;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public void setFavoriteGenres(String favoriteGenres) {

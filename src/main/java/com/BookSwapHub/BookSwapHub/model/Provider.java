@@ -10,7 +10,6 @@ import java.util.List;
 public class Provider extends User{
 
 
-    private String bio; // A short biography or description about the provider
 
 
     @OneToMany(mappedBy = "provider")
@@ -20,15 +19,6 @@ public class Provider extends User{
 
     public Provider() {
         super(); // Calls the constructor of the User class
-    }
-
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
 

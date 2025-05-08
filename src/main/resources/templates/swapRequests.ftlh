@@ -22,7 +22,6 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/provider/home">Home</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/manage">Manage Books</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/requests">Swap Requests</a></li>
-                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/listings">Listings</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/${provider.userId}">Profile</a></li>
                     <li class="nav-item px-lg-4">
                         <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
@@ -37,16 +36,11 @@
 
         <div class="list-group">
             <#list swapRequests as request>
-            <div class="list-group-item">
+            <a href="/requests/${request.id}" class="list-group-item list-group-item-action">
                 <h5 class="mb-1">${request.book.title}</h5>
-                <p class="mb-1">${request.requester.name} is requesting your book!</p>
-                <small>${request.requestedAt}</small>
-
-                <!-- Accept Button -->
-                <form action="/requests/${request.swapId}/accept" method="post" class="mt-2">
-                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
-                </form>
-            </div>
+                <p class="mb-1">${request.customer.name} is requesting your book!</p>
+                <small>${request.dateRequested}</small>
+            </a>
         </#list>
         </div>
     </section>

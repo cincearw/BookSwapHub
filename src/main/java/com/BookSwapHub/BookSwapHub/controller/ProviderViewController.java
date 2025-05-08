@@ -4,7 +4,10 @@ package com.BookSwapHub.BookSwapHub.controller;
 import com.BookSwapHub.BookSwapHub.model.Book;
 import com.BookSwapHub.BookSwapHub.model.Provider;
 import com.BookSwapHub.BookSwapHub.model.Review;
+import com.BookSwapHub.BookSwapHub.model.Message;
+import com.BookSwapHub.BookSwapHub.service.MessageService;
 import com.BookSwapHub.BookSwapHub.model.User;
+import com.BookSwapHub.BookSwapHub.model.Swap;
 import com.BookSwapHub.BookSwapHub.repository.BookRepository;
 import com.BookSwapHub.BookSwapHub.repository.ReviewRepository;
 import com.BookSwapHub.BookSwapHub.repository.UserRepository;
@@ -39,6 +42,9 @@ public class ProviderViewController {
     private ProviderRepository providerRepository;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     private BookRepository bookRepository;
 
     @Autowired
@@ -57,42 +63,60 @@ public class ProviderViewController {
     private SwapService swapService;
 
     @GetMapping("/provider/{id}")
-    public String viewProvider(@PathVariable Long id, Model model) {
-        Optional<Provider> optionalProvider = providerRepository.findById(id);
+    public String viewProvider(@PathVariable Long id, Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        Optional<User> optionalProvider = userRepository.findById(userId);
         if (optionalProvider.isPresent()) {
-            Provider provider = optionalProvider.get();
+            User provider = optionalProvider.get();
             model.addAttribute("provider", provider);
-            model.addAttribute("totalBooks", bookRepository.countByProviderId(id));
-            model.addAttribute("totalSwaps", swapRepository.countByProviderId(id));
+            model.addAttribute("totalBooks", bookRepository.countByProviderId(userId));
+            model.addAttribute("totalSwaps", swapRepository.countByProviderId(userId));
             return "provider";
         } else {
-            return "error"; // Or redirect
+            return "error";
         }
     }
 
 
     @PostMapping("/delete/{id}")
-    public String deleteProvider(@PathVariable Long id) {
-        providerRepository.deleteById(id);
-        return "redirect:/"; // or to a goodbye page
+    public String deleteProvider(@PathVariable Long id, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        providerRepository.deleteById(userId);
+        return "index.html";
     }
 
-    @PostMapping("/update/{id}")
+
+    @PostMapping("/provider/deleteBook/{id}")
+    public String deleteBook(@PathVariable Long id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            bookRepository.delete(book.get());
+        }
+        return "redirect:/provider/manage";
+    }
+
+    @PostMapping("provider/update/{id}")
     public String updateProvider(@PathVariable Long id,
                                  @RequestParam String name,
-                                 @RequestParam String email,
-                                 @RequestParam String bio,
-                                 @RequestParam String username) {
-        providerRepository.findById(id).ifPresent(provider -> {
+                                 @RequestParam(required = false) String bio,
+                                 @RequestParam String username,
+                                 HttpSession session,
+                                 Model model) {
+        Long userId = (Long) session.getAttribute("userId");
+        User provider = userRepository.findById(userId).orElseThrow();
             provider.setName(name);
-            provider.setEmail(email);
             provider.setBio(bio);
             provider.setUsername(username);
-            providerRepository.save(provider);
-        });
-        return "redirect:/" + id;
-    }
+            userRepository.save(provider);
 
+            model.addAttribute("provider", provider);
+        model.addAttribute("totalBooks", bookRepository.countByProviderId(userId));
+        model.addAttribute("totalSwaps", swapRepository.countByProviderId(userId));
+
+
+
+        return "provider";
+    }
 
 
     @GetMapping("/provider/home")
@@ -111,8 +135,6 @@ public class ProviderViewController {
 
         return "provider-dashboard";
     }
-
-
 
 
     @PostMapping("/register")
@@ -152,7 +174,7 @@ public class ProviderViewController {
         Provider provider = providerRepository.findById(userId).orElse(null);
         model.addAttribute("provider", provider);
         model.addAttribute("swapRequests", swapService.getSwapsByProvider(userId));
-        return "swapRequests"; // maps to swaps.ftlh
+        return "swapRequests";
     }
 
 
@@ -162,11 +184,11 @@ public class ProviderViewController {
         Provider provider = providerRepository.findById(userId).orElse(null);
         model.addAttribute("provider", provider);
         model.addAttribute("books", bookService.getBooksByProvider(userId));
+        model.addAttribute("bookList", bookRepository.findById(userId));
 
 
-        return "manage-books"; // maps to manage_books.ftlh
+        return "manage-books";
     }
-
 
 
     @GetMapping("/provider/add-book")
@@ -175,7 +197,7 @@ public class ProviderViewController {
         Provider provider = providerRepository.findById(userId).orElse(null);
         model.addAttribute("provider", provider);
         if (provider == null) {
-            return "redirect:/login";  // Redirect to login if the user is not found
+            return "redirect:/login";
         }
         model.addAttribute("book", new Book());
         return "add-book";
@@ -188,7 +210,8 @@ public class ProviderViewController {
             @RequestParam("genre") String genre,
             @RequestParam("description") String description,
             @RequestParam("image") MultipartFile image,
-            HttpSession session
+            HttpSession session,
+            Model model
     ) {
         Long userId = (Long) session.getAttribute("userId");
         Provider provider = providerRepository.findById(userId).orElse(null);
@@ -218,13 +241,75 @@ public class ProviderViewController {
         book.setOwner(provider);
 
         bookService.addBook(book, userId);
+        model.addAttribute("bookList", bookRepository.findById(userId));
+        model.addAttribute("provider", provider);
+        model.addAttribute("totalBooks", bookRepository.countByProviderId(userId));
+        model.addAttribute("totalSwaps", swapRepository.countByProviderId(userId));
         return "redirect:/provider/manage";
     }
 
-    @GetMapping("/favicon.ico")
-    @ResponseBody
-    public void disableFavicon() {
-        // no-op to prevent error
+
+    @PostMapping("/{id}/{action}")
+    public String handleRequestAction(Model model, HttpSession session, @PathVariable String action) {
+
+        Long userId = (Long) session.getAttribute("userId");
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        model.addAttribute("provider", provider);
+        model.addAttribute("swapRequests", swapService.getSwapsByProvider(userId));
+
+        Swap request = swapRepository.findById(userId).orElse(null);
+        if (request != null) {
+            if (action.equalsIgnoreCase("approve")) {
+                request.setStatus("APPROVED");
+            } else if (action.equalsIgnoreCase("deny")) {
+                request.setStatus("DENIED");
+            }
+            swapRepository.save(request);
+        }
+        return "swaps";
+    }
+
+
+    @Controller
+    @RequestMapping("/requests")
+    public class SwapRequestController {
+
+        @PostMapping("/{swapId}/approve")
+        public String approveRequest(@PathVariable Long swapId) {
+            swapService.approveSwap(swapId);
+            return "redirect:/requests";
+        }
+
+        @PostMapping("/{swapId}/deny")
+        public String denyRequest(@PathVariable Long swapId) {
+            swapService.denySwap(swapId);
+            return "redirect:/requests";
+        }
+
+        @GetMapping("/favicon.ico")
+        @ResponseBody
+        public void disableFavicon() {
+
+        }
+
+
+    }
+
+
+    @GetMapping("/provider/messages")
+    public String showProviderMessages(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        model.addAttribute("provider", provider);
+        model.addAttribute("inbox", messageService.getMessagesByReceiver(userId));
+        model.addAttribute("sent", messageService.getMessagesBySender(userId));
+
+        return "provider-messages";
     }
 
     @PostMapping("/requests/{swapId}/accept")
@@ -233,7 +318,38 @@ public class ProviderViewController {
         return "redirect:/requests";
     }
 
+    // Provider replies to a message
+    @PostMapping("/messages/reply")
+    public String replyToCustomerMessage(@RequestParam Long receiverId,
+                                         @RequestParam String content,
+                                         HttpSession session) {
+        Long senderId = (Long) session.getAttribute("userId");
+        if (senderId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new RuntimeException("Provider not found"));
+        User receiver = userRepository.findById(receiverId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
 
+        Message message = new Message();
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setContent(content);
+        message.setCreatedAt(LocalDate.now());
+        message.setStatus("unread");
 
+        messageService.sendMessage(message);
+
+        return "redirect:/provider/messages";
+    }
+
+    // Delete message
+    @PostMapping("/provider/messages/delete/{messageId}")
+    public String deleteMessage(@PathVariable Long messageId) {
+        messageService.deleteMessageById(messageId);
+        return "redirect:/provider/messages";
+    }
 }
