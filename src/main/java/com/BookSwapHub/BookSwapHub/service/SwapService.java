@@ -107,7 +107,7 @@ public class SwapService {
         Swap swap = swapRepository.findById(swapId)
                 .orElseThrow(() -> new RuntimeException("Swap not found with ID: " + swapId));
 
-        swap.setStatus("APPROVED"); // or use an enum if you have one
+        swap.setStatus("ACCEPTED"); // or use an enum if you have one
         swap.setUpdatedAt(LocalDate.from(LocalDateTime.now()));
         swapRepository.save(swap);
     }

@@ -12,7 +12,7 @@ public class Provider extends User{
 
 
 
-    @OneToMany(mappedBy = "provider")
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Book> books; // Books provided by this provider
 
