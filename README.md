@@ -50,7 +50,7 @@ To run the application:
 1. Clone the repository and open the project in your IDE.
 2. Ensure your MySQL database is running and import the provided `bookswap3.sql` file located in `/db`.
 3. Run the Spring Boot application.
-4. Access the app via `http://localhost:8080/index.html`, if you want to see the BookSwap Hub Website. If not, go to `http://localhost:8080/auth/login`, to explore our website. 
+4. Access the app via by opening the index.html in browser, if you want to see the BookSwap Hub Website. If not, go to `http://localhost:8080/auth/login`, to further explore our website. 
 
 
 ## Default Accounts
