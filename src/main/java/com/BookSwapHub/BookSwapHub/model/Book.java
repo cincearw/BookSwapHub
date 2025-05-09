@@ -1,7 +1,11 @@
 package com.BookSwapHub.BookSwapHub.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -15,6 +19,13 @@ public class Book{
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private Provider provider;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Swap> swaps = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 
     @Column(length = 100)
     private String title;
@@ -102,5 +113,21 @@ public class Book{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<Swap> getSwaps() {
+        return swaps;
+    }
+
+    public void setSwaps(List<Swap> swaps) {
+        this.swaps = swaps;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

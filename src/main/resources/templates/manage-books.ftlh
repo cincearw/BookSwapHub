@@ -31,34 +31,41 @@
         </div>
     </nav>
 
-    <section class="container my-5">
-        <h2 style="color: white;" class="text-center">Manage Your Books</h2>
-        <p style="color: white;" class="text-center">Here you can add, edit, or remove your books from the library.</p>
+    <section class="page-section">
+        <div class="container">
+            <h2 class="text-center text-white mb-4">Manage Your Books</h2>
+            <p class="text-center text-white mb-5">Here you can add, edit, or remove your books from the library.</p>
 
-        <div class="row text-center">
-            <#list books as book>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="${book.imageUrl}" class="card-img-top" alt="${book.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${book.title}</h5>
-                        <p class="card-text">${book.author}</p>
-                        <a href="/provider/editBook/${book.bookId}" class="btn btn-primary">Edit</a>
-                        <form action="/provider/deleteBook/${book.bookId}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+            <div class="row">
+                <#list books as book>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="${book.imageUrl!'/assets/img/book-placeholder.jpg'}?v=${.now?long}" class="card-img-top" alt="${book.title}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${book.title}</h5>
+                            <p class="card-text">${book.author}</p>
+                            <div class="mt-auto">
+                                <a href="/provider/editBook/${book.bookId}" class="btn btn-outline-primary w-100 mb-2">Edit</a>
+                                <form action="/provider/deleteBook/${book.bookId}" method="post" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                    <button type="submit" class="btn btn-danger w-100">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </#list>
+            </#list>
         </div>
-        <a href="/provider/add-book" class="btn btn-success">Add New Book</a>
+
+        <div class="text-center mt-4">
+            <a href="/provider/add-book" class="btn btn-success">Add New Book</a>
+        </div>
+        </div>
     </section>
 </main>
 
 <footer class="footer text-center py-4 bg-dark text-light border-top border-light mt-auto">
     <div class="container">
-        <p class="m-0 small">Copyright &copy; BookSwap Hub 2025</p>
+        <p class="m-0 small">&copy; BookSwap Hub 2025</p>
     </div>
 </footer>
 

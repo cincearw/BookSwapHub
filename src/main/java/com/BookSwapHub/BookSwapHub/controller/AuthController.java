@@ -61,7 +61,7 @@ public class AuthController {
             provider.setName(name);
             provider.setEmail(email);
 
-            providerService.registerProvider(provider);
+            userService.registerUser(provider);
             return "login";
 
         }

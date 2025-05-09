@@ -23,49 +23,59 @@
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/manage">Manage Books</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/requests">Swap Requests</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/provider/${provider.userId}">Profile</a></li>
-                    <li class="nav-item px-lg-4">
-                        <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
-                    </li>
+                    <a class="nav-link text-uppercase" href="/logout">Logout</a>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section class="container my-5">
-        <h2 class="text-center text-white">Your Swap Requests</h2>
+        <h2 class="text-center">Your Swap Requests</h2>
 
-        <div class="row justify-content-center">
+        <div class="list-group">
             <#list swapRequests as request>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">${request.book.title}</h5>
+                    <p class="card-text">${request.requester.name} is requesting your book!</p>
+                    <p class="card-text"><small class="text-muted">${request.requestedAt!''}</small></p>
 
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">${request.book.title}</h5>
-                        <p class="card-text">${request.requester.name} is requesting your book!</p>
-                        <small class="text-muted">${request.requestedAt}</small>
-                        <form action="/requests/${request.swapId}/accept" method="post" class="mt-3">
-                            <button type="submit" class="btn btn-success">Accept</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                    <!-- Show the status of the request -->
+                    <p class="card-text">
+                        <strong>Status:</strong>
+                        <#if request.status??>
+                        <#if request.status == "ACCEPTED">
+                        <span class="text-success">${request.status}</span>
+                        <#elseif request.status == "DENIED">
+                        <span class="text-danger">${request.status}</span>
+                        <#else>
+                        <span class="text-secondary">${request.status}</span>
+                    </#if>
+                    <#else>
+                    <span class="text-muted">Pending</span>
+                </#if>
+                </p>
 
-            <a href="/requests/${request.id}" class="list-group-item list-group-item-action">
-                <h5 class="mb-1">${request.book.title}</h5>
-                <p class="mb-1">${request.customer.name} is requesting your book!</p>
-                <small>${request.dateRequested}</small>
-            </a>
+                <!-- Approve and Deny buttons will be hidden if a decision is made -->
+                <#if request.status != "ACCEPTED" && request.status != "DENIED">
+                <form method="post" action="/requests/${request.swapId}/approve" class="d-inline">
+                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                </form>
 
-        </#list>
+                <form method="post" action="/requests/${request.swapId}/deny" class="d-inline ms-2">
+                    <button type="submit" class="btn btn-danger btn-sm">Deny</button>
+                </form>
+            </#if>
         </div>
+        </div>
+    </#list>
+    </div>
     </section>
-
 </main>
 
-<!-- Footer -->
-<footer class="footer text-center py-4 bg-dark text-light mt-auto">
+<footer class="footer text-center py-4 bg-dark text-light border-top border-light mt-auto">
     <div class="container">
-        <p class="m-0 small">&copy; BookSwap Hub 2025</p>
+        <p class="m-0 small">Copyright &copy; BookSwap Hub 2025</p>
     </div>
 </footer>
 
@@ -85,6 +95,5 @@
       }
     }
 </script>
-
 </body>
 </html>
