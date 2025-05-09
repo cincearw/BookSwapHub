@@ -81,7 +81,11 @@ public class ProviderViewController {
     @PostMapping("/delete/{id}")
     public String deleteProvider(@PathVariable Long id, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
-        providerRepository.deleteById(userId);
+        if (userId != null && providerRepository.existsById(userId)) {
+            bookRepository.deleteAllByProviderId(id);
+            providerRepository.deleteById(userId);
+            session.invalidate(); // log out the user after deletion
+        }
         return "index.html";
     }
 
@@ -184,7 +188,7 @@ public class ProviderViewController {
         Provider provider = providerRepository.findById(userId).orElse(null);
         model.addAttribute("provider", provider);
         model.addAttribute("books", bookService.getBooksByProvider(userId));
-        model.addAttribute("bookList", bookRepository.findById(userId));
+
 
 
         return "manage-books";
@@ -217,13 +221,14 @@ public class ProviderViewController {
         Provider provider = providerRepository.findById(userId).orElse(null);
 
 
-        // Save uploaded image to /static/assets/img
+
         String relativePath = "src/main/resources/static/assets/img/";
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
         Path imagePath = Paths.get(relativePath + fileName);
         try {
             Files.createDirectories(imagePath.getParent());
             Files.write(imagePath, image.getBytes());
+
         } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/provider/add-book?error=image";
@@ -231,7 +236,7 @@ public class ProviderViewController {
 
         String imageUrl = "/assets/img/" + fileName;
 
-        // Create and save the book
+
         Book book = new Book();
         book.setTitle(title);
         book.setAuthor(author);
@@ -241,13 +246,9 @@ public class ProviderViewController {
         book.setOwner(provider);
 
         bookService.addBook(book, userId);
-        model.addAttribute("bookList", bookRepository.findById(userId));
-        model.addAttribute("provider", provider);
-        model.addAttribute("totalBooks", bookRepository.countByProviderId(userId));
-        model.addAttribute("totalSwaps", swapRepository.countByProviderId(userId));
+
         return "redirect:/provider/manage";
     }
-
 
     @PostMapping("/{id}/{action}")
     public String handleRequestAction(Model model, HttpSession session, @PathVariable String action) {
@@ -259,8 +260,8 @@ public class ProviderViewController {
 
         Swap request = swapRepository.findById(userId).orElse(null);
         if (request != null) {
-            if (action.equalsIgnoreCase("approve")) {
-                request.setStatus("APPROVED");
+            if (action.equalsIgnoreCase("accept")) {
+                request.setStatus("ACCEPTED");
             } else if (action.equalsIgnoreCase("deny")) {
                 request.setStatus("DENIED");
             }
@@ -293,6 +294,21 @@ public class ProviderViewController {
         }
 
 
+    }
+
+
+    @GetMapping
+    public String showSwapRequests(Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/login"; // or show an error
+        }
+
+        Provider provider = providerRepository.findById(userId).orElse(null);
+        model.addAttribute("provider", provider);
+        model.addAttribute("swapRequests", swapService.getSwapsByProvider(userId));
+
+        return "swapRequests"; // this maps to swapRequests.ftlh
     }
 
 
