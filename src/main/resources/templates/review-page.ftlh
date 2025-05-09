@@ -38,7 +38,8 @@
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="/profile">Profile</a></li>
         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase active" href="/reviews">Reviews</a></li>
         <li class="nav-item px-lg-4">
-          <a class="nav-link text-uppercase" href="#" onclick="logout()">Logout</a>
+          <a class="nav-link text-uppercase" href="/logout">Logout</a>
+
         </li>
       </ul>
     </div>
@@ -137,7 +138,7 @@
       let confirmLogout = confirm("Are you sure you want to log out?");
       if (confirmLogout) {
         console.log("User confirmed logout");
-        window.location.href = "../index.html";
+        window.location.href = "index.html";
       } else {
         console.log("User canceled logout");
       }

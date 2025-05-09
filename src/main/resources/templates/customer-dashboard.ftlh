@@ -8,10 +8,10 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/static/css/styles.css" />
 </head>
 <body>
-
+<body style="background-image: url('/static/assets/img/book_background.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;" >
 <header class="bg-dark text-light py-5 text-center">
     <h1 class="fw-bold text-uppercase">BookSwap Hub</h1>
     <h2 class="text-warning">Customer Dashboard</h2>
